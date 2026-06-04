@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Beratungskonzept — 4-Phasen-Curriculum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:      #0A0A09;
+    --ink:        #1A1A18;
+    --charcoal:   #2C2C2A;
+    --slate:      #4A4A47;
+    --mid:        #787874;
+    --silver:     #AEADA8;
+    --pearl:      #D6D4CE;
+    --smoke:      #EDECEA;
+    --paper:      #F7F6F3;
+    --white:      #FEFEFE;
+
+    --serif:      'Playfair Display', Georgia, serif;
+    --serif-body: 'Libre Baskerville', Georgia, serif;
+    --sans:       'Jost', Helvetica, sans-serif;
+
+    --lh-tight:   1.08;
+    --lh-head:    1.2;
+    --lh-body:    1.72;
+
+    --radius-sm:  3px;
+    --radius-md:  6px;
+    --radius-lg:  10px;
+
+    /* rule line */
+    --rule:       1px solid var(--pearl);
+    --rule-thin:  0.5px solid var(--pearl);
+    --rule-dark:  1px solid var(--charcoal);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: 14px;
+    line-height: var(--lh-body);
+    color: var(--ink);
+    background: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── SUBTLE PAPER TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.018;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 0 64px;
+    border-bottom: var(--rule-dark);
+    margin-bottom: 64px;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 28px;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 400;
+    line-height: var(--lh-tight);
+    color: var(--black);
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 700;
+  }
+
+  .hero-sub {
+    font-family: var(--serif-body);
+    font-size: 15px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--slate);
+    max-width: 520px;
+    line-height: 1.75;
+    margin-bottom: 48px;
+    border-left: 2px solid var(--pearl);
+    padding-left: 20px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+    border-top: var(--rule);
+    padding-top: 24px;
+  }
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-right: 32px;
+    border-right: var(--rule);
+    margin-right: 32px;
+  }
+  .hero-stat:last-child { border-right: none; margin-right: 0; }
+  .hero-stat-num {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1;
+  }
+  .hero-stat-lbl {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* ── NAV PILLS ── */
+  .phase-nav {
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+    margin-bottom: 64px;
+    border-bottom: var(--rule);
+    padding-bottom: 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--white);
+    padding-top: 16px;
+    margin-left: -40px;
+    margin-right: -40px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .phase-nav-pill {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 20px 12px;
+    border: none;
+    background: transparent;
+    color: var(--silver);
+    cursor: pointer;
+    transition: color 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .phase-nav-pill:hover { color: var(--ink); }
+  .phase-nav-pill.active-1,
+  .phase-nav-pill.active-2,
+  .phase-nav-pill.active-3,
+  .phase-nav-pill.active-4 {
+    color: var(--black);
+    border-bottom-color: var(--black);
+  }
+
+  .nav-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--pearl);
+  }
+  .phase-nav-pill.active-1 .nav-dot,
+  .phase-nav-pill.active-2 .nav-dot,
+  .phase-nav-pill.active-3 .nav-dot,
+  .phase-nav-pill.active-4 .nav-dot { background: var(--black); }
+
+  /* ── PHASE SECTION ── */
+  .phase-section { margin-bottom: 88px; }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: var(--rule);
+  }
+
+  .phase-num {
+    font-family: var(--serif);
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: var(--smoke);
+    flex-shrink: 0;
+    margin-top: -12px;
+    user-select: none;
+  }
+
+  /* override color per phase — all same in monochrome */
+  .p1 .phase-num, .p2 .phase-num, .p3 .phase-num, .p4 .phase-num { color: var(--smoke); }
+
+  .phase-header-text { flex: 1; padding-top: 4px; }
+
+  .phase-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .phase-badge {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border: 1px solid var(--charcoal);
+    background: var(--black);
+    color: var(--white);
+    border-radius: 0;
+  }
+
+  /* all phases: same monochrome badge */
+  .p1 .phase-badge, .p2 .phase-badge, .p3 .phase-badge, .p4 .phase-badge {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+  }
+
+  .phase-meta-pill {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--mid);
+    padding: 3px 10px;
+    border: 1px solid var(--pearl);
+    border-radius: 0;
+  }
+
+  .phase-title {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3.5vw, 38px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: var(--lh-head);
+    color: var(--black);
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .phase-desc {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--slate);
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  /* ── KPI STATS BAR ── */
+  .phase-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-bottom: 36px;
+    border: var(--rule);
+  }
+
+  .phase-kpi {
+    padding: 16px 18px;
+    border-right: var(--rule);
+    text-align: left;
+  }
+  .phase-kpi:last-child { border-right: none; }
+
+  .phase-kpi-num {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.2;
+    display: block;
+  }
+  .phase-kpi-lbl {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-top: 3px;
+    display: block;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 88px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: var(--pearl);
+  }
+
+  .tl-group { margin-bottom: 4px; }
+  .tl-group-label {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--silver);
+    padding-left: 112px;
+    margin: 24px 0 12px;
+  }
+
+  .tl-item { display: flex; gap: 0; margin-bottom: 6px; }
+
+  .tl-time-col {
+    width: 88px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 22px;
+    padding-top: 14px;
+  }
+  .tl-time {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--mid);
+    white-space: nowrap;
+  }
+  .tl-dur {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 300;
+    color: var(--silver);
+    margin-top: 2px;
+  }
+
+  .tl-dot-wrap {
+    position: relative;
+    width: 24px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    padding-top: 18px;
+    z-index: 1;
+  }
+
+  .tl-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1.5px solid var(--charcoal);
+    flex-shrink: 0;
+  }
+
+  /* all dots monochrome */
+  .d-blue, .d-teal, .d-amber, .d-purple { background: var(--black); border-color: var(--black); }
+  .d-gray { background: var(--white); border-color: var(--charcoal); }
+
+  .tl-card {
+    flex: 1;
+    margin-left: 16px;
+    background: var(--white);
+    border: 1px solid var(--pearl);
+    border-radius: 0;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 2px;
+  }
+  .tl-card:hover { border-color: var(--charcoal); }
+  .tl-card.open  {
+    border-color: var(--black);
+    box-shadow: 4px 4px 0 var(--smoke);
+  }
+
+  .tl-card-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .tl-card-badge {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border: 1px solid;
+    border-radius: 0;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* all badges monochrome */
+  .tb-blue, .tb-teal, .tb-amber, .tb-purple {
+    background: var(--black);
+    border-color: var(--black);
+    color: var(--white);
+  }
+  .tb-gray {
+    background: var(--white);
+    border-color: var(--charcoal);
+    color: var(--charcoal);
+  }
+
+  .tl-card-title {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--black);
+    flex: 1;
+    line-height: 1.35;
+  }
+  .tl-card-dur {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--silver);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .tl-card-chev {
+    font-size: 16px;
+    color: var(--silver);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    font-style: normal;
+  }
+  .tl-card.open .tl-card-chev { transform: rotate(90deg); }
+
+  .tl-card-body {
+    display: none;
+    padding: 0 16px 18px;
+    border-top: 1px solid var(--smoke);
+  }
+  .tl-card.open .tl-card-body { display: block; }
+
+  .tl-card-desc {
+    font-family: var(--serif-body);
+    font-size: 12.5px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--slate);
+    line-height: 1.7;
+    padding: 14px 0 14px;
+    border-bottom: 1px solid var(--smoke);
+    margin-bottom: 14px;
+  }
+
+  .tl-steps { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+  .tl-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--slate);
+    line-height: 1.55;
+  }
+  .tl-step-dot {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--silver);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .tl-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+  .tl-tag {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border: 1px solid var(--pearl);
+    border-radius: 0;
+    color: var(--mid);
+  }
+
+  .tl-meta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .tl-meta-item {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--silver);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ── TRACK GRID (Phase 3) ── */
+  .track-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 14px 0;
+    border: 1px solid var(--pearl);
+  }
+  .track-card {
+    padding: 14px 16px;
+    border-right: 1px solid var(--pearl);
+  }
+  .track-card:last-child { border-right: none; }
+
+  .track-card-title {
+    font-family: var(--serif);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--smoke);
+  }
+  .track-card-item {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--slate);
+    margin-bottom: 4px;
+    padding-left: 10px;
+    position: relative;
+    line-height: 1.45;
+  }
+  .track-card-item::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--pearl);
+    font-size: 9px;
+    top: 1px;
+  }
+  .track-card-target {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--smoke);
+  }
+
+  /* ── RHYTHM GRID (Phase 4) ── */
+  .rhythm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 14px 0;
+    border: 1px solid var(--pearl);
+  }
+  .rhythm-card {
+    padding: 14px 16px;
+    border-right: 1px solid var(--pearl);
+  }
+  .rhythm-card:last-child { border-right: none; }
+
+  .rhythm-title {
+    font-family: var(--serif);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 2px;
+  }
+  .rhythm-freq {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--smoke);
+  }
+  .rhythm-item {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--slate);
+    margin-bottom: 4px;
+    padding-left: 10px;
+    position: relative;
+    line-height: 1.45;
+  }
+  .rhythm-item::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--pearl);
+    font-size: 9px;
+    top: 1px;
+  }
+
+  /* ── MATURITY GRID (Phase 4) ── */
+  .maturity-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 14px 0;
+    border: 1px solid var(--pearl);
+  }
+  .maturity-card {
+    padding: 14px 16px;
+    border-right: 1px solid var(--pearl);
+    text-align: left;
+  }
+  .maturity-card:last-child { border-right: none; }
+
+  .maturity-num {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--smoke);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .maturity-name {
+    font-family: var(--serif);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 4px;
+    display: block;
+  }
+  .maturity-desc {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+
+  /* ── BREAK ROW ── */
+  .tl-break {
+    display: flex;
+    align-items: center;
+    padding-left: 88px;
+    margin: 12px 0;
+    gap: 0;
+  }
+  .tl-break-time {
+    font-family: var(--sans);
+    font-size: 10px;
+    color: var(--silver);
+    width: 36px;
+    text-align: right;
+    margin-right: 22px;
+    flex-shrink: 0;
+  }
+  .tl-break-line {
+    flex: 1;
+    margin-left: 16px;
+    height: 0;
+    border-top: 1px dashed var(--pearl);
+  }
+  .tl-break-label {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--silver);
+    padding: 3px 12px;
+    border: 1px solid var(--pearl);
+    border-radius: 0;
+    background: var(--white);
+    margin-left: 12px;
+    white-space: nowrap;
+  }
+
+  /* ── DELIVERABLES BAR ── */
+  .deliverables-bar {
+    margin-top: 32px;
+    padding: 18px 20px;
+    background: var(--paper);
+    border: var(--rule);
+    border-left: 3px solid var(--black);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .deliverables-label {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--black);
+    flex-shrink: 0;
+    padding-top: 3px;
+    min-width: 80px;
+  }
+  .deliverables-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .deliverables-tag {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 400;
+    padding: 4px 12px;
+    border: 1px solid var(--charcoal);
+    border-radius: 0;
+    color: var(--charcoal);
+    background: var(--white);
+  }
+
+  /* ── PHASE DIVIDER ── */
+  .phase-section + .phase-section {
+    border-top: var(--rule-dark);
+    padding-top: 72px;
+  }
+
+  /* ── FOOTER ── */
+  .curriculum-footer {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: var(--rule-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-text {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--silver);
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .phase-nav { display: none; }
+    .tl-card-body { display: block !important; }
+    .tl-card-chev { display: none; }
+    body { color: #000; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero          { animation: fadeIn 0.6s ease both; }
+  .phase-nav     { animation: fadeIn 0.6s 0.1s ease both; }
+  .phase-section { animation: fadeIn 0.5s ease both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .page { padding: 0 20px 60px; }
+    .phase-kpis     { grid-template-columns: repeat(2, 1fr); }
+    .track-grid     { grid-template-columns: 1fr; }
+    .rhythm-grid    { grid-template-columns: 1fr; }
+    .maturity-grid  { grid-template-columns: repeat(2, 1fr); }
+    .timeline::before { left: 70px; }
+    .tl-time-col    { width: 70px; }
+    .tl-break       { padding-left: 70px; }
+    .tl-group-label { padding-left: 94px; }
+    .hero-stats     { gap: 0; }
+    .hero-stat      { padding-right: 20px; margin-right: 20px; }
+    .phase-num      { font-size: 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero-eyebrow">AI Business Advisor · Beratungskonzept</p>
+    <h1 class="hero-title">4-Phasen-Curriculum<br>für <em>AI-Transformation</em></h1>
+    <p class="hero-sub">Ein strukturierter Weg, mit dem Unternehmen jeder Größe und jedem Wissensstand an das Thema Künstliche Intelligenz herangeführt werden — von der ersten Orientierung bis zur dauerhaften Verankerung.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num">4</span><span class="hero-stat-lbl">Phasen</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">14</span><span class="hero-stat-lbl">Module</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">3–6 M.</span><span class="hero-stat-lbl">Umsetzungszeit</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">KMU–Konzern</span><span class="hero-stat-lbl">Zielgruppe</span></div>
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav class="phase-nav" aria-label="Phasen-Navigation">
+    <a href="#phase1" class="phase-nav-pill active-1"><span class="nav-dot nd-1"></span>Phase 1 · Orientierung</a>
+    <a href="#phase2" class="phase-nav-pill active-2"><span class="nav-dot nd-2"></span>Phase 2 · Strategie</a>
+    <a href="#phase3" class="phase-nav-pill active-3"><span class="nav-dot nd-3"></span>Phase 3 · Pilotierung</a>
+    <a href="#phase4" class="phase-nav-pill active-4"><span class="nav-dot nd-4"></span>Phase 4 · Skalierung</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE 1
+  ════════════════════════════════════════════════════ -->
+  <section class="phase-section p1" id="phase1">
+    <div class="phase-header">
+      <div class="phase-num">01</div>
+      <div class="phase-header-text">
+        <div class="phase-badge-row">
+          <span class="phase-badge">Phase 1</span>
+          <span class="phase-meta-pill">½ Tag · Halbtagsworkshop</span>
+        </div>
+        <h2 class="phase-title">Orientierung &amp; Standortanalyse</h2>
+        <p class="phase-desc">Einstieg für alle Levels gleichzeitig — ohne Vorkenntnisse vorauszusetzen. Das Unternehmen versteht, wo es heute steht und welche konkreten Chancen AI für seine Prozesse bietet.</p>
+      </div>
+    </div>
+
+    <div class="phase-kpis">
+      <div class="phase-kpi"><div class="phase-kpi-num">½ Tag</div><div class="phase-kpi-lbl">Dauer</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">3</div><div class="phase-kpi-lbl">Module</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">8–25</div><div class="phase-kpi-lbl">Teilnehmende</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">Alle Ebenen</div><div class="phase-kpi-lbl">Zielgruppe</div></div>
+    </div>
+
+    <div class="timeline">
+
+      <!-- Einstieg -->
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">08:30</span><span class="tl-dur">30 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-gray"></div></div>
+        <div class="tl-card open" id="c1-0">
+          <div class="tl-card-trigger" onclick="toggle('c1-0')">
+            <span class="tl-card-badge tb-gray">Einstieg</span>
+            <span class="tl-card-title">Ankommen &amp; Erwartungscheck</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Informelle Begrüßung, Vorstellungsrunde und offenes Einsammeln von Erwartungen, Befürchtungen und Vorerfahrungen — sichtbar auf Whiteboard oder digitalem Board.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Begrüßung &amp; Ziel des Tages (5 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Blitzvorstellung: Name, Rolle, ein Satz zu AI (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Erwartungsabfrage: „Was erhoffe ich mir? Was bereitet mir Sorgen?" — Klebezettel oder digitales Tool (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Cluster &amp; kurze Auswertung der Nennungen (5 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Miro / Whiteboard</span><span class="tl-tag">Klebezettel-Abfrage</span><span class="tl-tag">Keine Vorbereitung nötig</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">👥 Alle Ebenen</span><span class="tl-meta-item">😊 Niederschwellig</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modul 1.1 -->
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">09:00</span><span class="tl-dur">60 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-blue"></div></div>
+        <div class="tl-card" id="c1-1">
+          <div class="tl-card-trigger" onclick="toggle('c1-1')">
+            <span class="tl-card-badge tb-blue">Modul 1.1</span>
+            <span class="tl-card-title">AI-Demystifizierung — was ist AI wirklich?</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Kompakter Überblick für alle Levels gleichzeitig: Was AI kann, was nicht — und warum das für dieses Unternehmen konkret relevant ist. Mit Live-Demo, ohne Fachjargon.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>AI-Landschaft in 10 Minuten: Vom Sprachmodell bis zur Automatisierung — visuell, ohne Buzzwords (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Live-Demo: Ein reales Werkzeug an einer branchennahen Aufgabe vorführen (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>„Kann AI das?" — Interaktive Einschätzungsrunde: Teilnehmende bewerten 10 Aussagen (Richtig/Falsch) und werden überrascht (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Die drei häufigsten Missverständnisse über AI — mit Auflösung (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Q&amp;A-Puffer (5 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Vortrag + Demo</span><span class="tl-tag">Mentimeter / Slido</span><span class="tl-tag">Foliensatz (10–12 Folien)</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">👥 Alle Ebenen</span><span class="tl-meta-item">▶ Aktivierend</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-break">
+        <span class="tl-break-time">10:00</span>
+        <div class="tl-break-line"></div>
+        <span class="tl-break-label">☕ Kaffeepause — 15 min</span>
+      </div>
+
+      <!-- Modul 1.2 -->
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">10:15</span><span class="tl-dur">75 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-blue"></div></div>
+        <div class="tl-card" id="c1-2">
+          <div class="tl-card-trigger" onclick="toggle('c1-2')">
+            <span class="tl-card-badge tb-blue">Modul 1.2</span>
+            <span class="tl-card-title">AI-Readiness-Check — wo steht das Unternehmen?</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Strukturierte Selbstbewertung in vier Dimensionen — Daten, Prozesse, Kultur, Führung. Ergebnis ist ein gemeinsamer Readiness-Score, der als Gesprächsgrundlage dient, nicht als Urteil.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Einführung: Die vier Readiness-Dimensionen vorstellen (5 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Individuelle Selbstbewertung: Digitaler Readiness-Fragebogen (16 Fragen, 15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Ergebnis-Aggregation live sichtbar machen — Verteilung, Ausreißer, Konsens (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Kleingruppenarbeit: „Was erklärt die Unterschiede in unseren Einschätzungen?" (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Plenum: Erkenntnisse, Diskussion der größten Lücken (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Zusammenfassung Readiness-Profil durch Moderator (10 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Online-Fragebogen (16 Fragen)</span><span class="tl-tag">Live-Aggregation</span><span class="tl-tag">Gruppenarbeit</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">👥 Alle Ebenen gemischt</span><span class="tl-meta-item">📊 Datenbasiert</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-break">
+        <span class="tl-break-time">11:30</span>
+        <div class="tl-break-line"></div>
+        <span class="tl-break-label">Kurze Pause — 10 min</span>
+      </div>
+
+      <!-- Modul 1.3 -->
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">11:40</span><span class="tl-dur">60 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-blue"></div></div>
+        <div class="tl-card" id="c1-3">
+          <div class="tl-card-trigger" onclick="toggle('c1-3')">
+            <span class="tl-card-badge tb-blue">Modul 1.3</span>
+            <span class="tl-card-title">Use-Case-Radar — wo liegen die Potenziale?</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Von der abstrakten Technologie zu konkreten Anwendungsfällen im eigenen Unternehmen. Die Teilnehmenden entwickeln selbst erste Use Cases — ohne Technikkenntnisse.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Impulsvortrag: 5–8 branchenrelevante AI-Use-Cases mit echten Beispielen (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Ideation in Kleingruppen nach Bereichen: „Wo verlieren wir heute Zeit oder Qualität?" (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Schnelle Erstbewertung: Sticky-Dot-Voting auf der Impact/Aufwand-Matrix (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Auswertung: Top-3-Kandidaten identifizieren und besprechen (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Ausblick auf Phase 2: Wie geht es weiter? (5 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Impuls-Folien</span><span class="tl-tag">Impact/Aufwand-Matrix</span><span class="tl-tag">Dot-Voting</span><span class="tl-tag">Use-Case-Vorlage</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">👥 Abteilungsgemischt</span><span class="tl-meta-item">💡 Kreativ + strukturiert</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Abschluss 1 -->
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">12:40</span><span class="tl-dur">20 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-gray"></div></div>
+        <div class="tl-card" id="c1-4">
+          <div class="tl-card-trigger" onclick="toggle('c1-4')">
+            <span class="tl-card-badge tb-gray">Abschluss</span>
+            <span class="tl-card-title">Wrap-up, Ergebnissicherung &amp; nächste Schritte</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Gemeinsame Reflexion, Ergebnissicherung und klare Vereinbarung über Folgeaktivitäten — damit der Workshop nicht im Raum bleibt.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Kurzzusammenfassung: Readiness-Profil + Top-Use-Cases (5 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Blitzlicht: Eine Erkenntnis + eine offene Frage pro Person (5 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Vereinbarung konkreter nächster Schritte (7 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Verabschiedung (3 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Ergebnisprotokoll (within 48h)</span><span class="tl-tag">Readiness-Score-PDF</span><span class="tl-tag">Potenziallandkarte</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">✓ Verbindlich</span><span class="tl-meta-item">📄 Dokumentiert</span><span class="tl-meta-item">Ende: 13:00 Uhr</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /timeline -->
+
+    <div class="deliverables-bar">
+      <span class="deliverables-label">Deliverables</span>
+      <div class="deliverables-tags">
+        <span class="deliverables-tag">AI-Readiness-Score</span>
+        <span class="deliverables-tag">Potenziallandkarte</span>
+        <span class="deliverables-tag">Ergebnisprotokoll</span>
+        <span class="deliverables-tag">C-Level-Briefing</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE 2
+  ════════════════════════════════════════════════════ -->
+  <section class="phase-section p2" id="phase2">
+    <div class="phase-header">
+      <div class="phase-num">02</div>
+      <div class="phase-header-text">
+        <div class="phase-badge-row">
+          <span class="phase-badge">Phase 2</span>
+          <span class="phase-meta-pill">1–2 Tage · Strategieworkshop</span>
+        </div>
+        <h2 class="phase-title">Strategie &amp; Zielbild</h2>
+        <p class="phase-desc">Aus den identifizierten Potenzialen wird eine unternehmensspezifische AI-Strategie entwickelt — mit konkreten Prioritäten, Ressourcenplanung und realistischen Erfolgskriterien.</p>
+      </div>
+    </div>
+
+    <div class="phase-kpis">
+      <div class="phase-kpi"><div class="phase-kpi-num">2 Tage</div><div class="phase-kpi-lbl">Dauer</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">4</div><div class="phase-kpi-lbl">Module</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">6–12</div><div class="phase-kpi-lbl">Teilnehmende</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">C-Level + Leads</div><div class="phase-kpi-lbl">Zielgruppe</div></div>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-group-label">Tag 1</div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">09:00</span><span class="tl-dur">30 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-gray"></div></div>
+        <div class="tl-card open" id="c2-0">
+          <div class="tl-card-trigger" onclick="toggle('c2-0')">
+            <span class="tl-card-badge tb-gray">Einstieg</span>
+            <span class="tl-card-title">Rückblick Phase 1 &amp; Zielsetzung</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Ergebnisse aus Phase 1 werden rekapituliert, offene Fragen geklärt und der Rahmen für die Strategiearbeit gesetzt. Alle Teilnehmenden starten auf gleichem Stand.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Kurzzusammenfassung Readiness-Score und Use-Case-Kandidaten aus Phase 1 (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Was hat sich seit Phase 1 verändert? Neue Erkenntnisse, Reaktionen im Unternehmen (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Ziel dieser zwei Tage: Vom Potenzial zur entscheidungsreifen Strategie (10 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Phase-1-Ergebnisprotokoll</span><span class="tl-tag">Flipchart</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">09:30</span><span class="tl-dur">90 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-teal"></div></div>
+        <div class="tl-card" id="c2-1">
+          <div class="tl-card-trigger" onclick="toggle('c2-1')">
+            <span class="tl-card-badge tb-teal">Modul 2.1</span>
+            <span class="tl-card-title">Strategischer Rahmen — Vision, Ambition &amp; OKRs</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Das Unternehmen definiert, welche Rolle AI in 2–3 Jahren spielen soll — und leitet daraus messbare Ziele ab. Keine Wunschliste, sondern realistische Ambition auf Basis des Readiness-Scores.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Impuls: Drei AI-Ambitionslevels — Effizienzoptimierer, Prozessrevoluzzer, Geschäftsmodellinnovator (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Gruppenarbeit: Wo wollen wir in 18 Monaten stehen? Formulierung einer AI-Vision (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Plenum: Konsolidierung und Verabschiedung einer gemeinsamen Vision (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>OKR-Workshop: 3–5 messbare Objectives aus der Vision ableiten (30 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Dokumentation und Abstimmung der OKRs (10 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Visions-Canvas</span><span class="tl-tag">OKR-Vorlage</span><span class="tl-tag">Ambitions-Skala</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">👥 C-Level geführt</span><span class="tl-meta-item">💡 Kreativ + konkret</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-break"><span class="tl-break-time">11:00</span><div class="tl-break-line"></div><span class="tl-break-label">☕ Kaffeepause — 15 min</span></div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">11:15</span><span class="tl-dur">105 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-teal"></div></div>
+        <div class="tl-card" id="c2-2">
+          <div class="tl-card-trigger" onclick="toggle('c2-2')">
+            <span class="tl-card-badge tb-teal">Modul 2.2</span>
+            <span class="tl-card-title">Use-Case-Priorisierung — Impact vs. Umsetzbarkeit</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Die Use-Case-Kandidaten aus Phase 1 werden systematisch bewertet und in eine umsetzbare Reihenfolge gebracht. Ergebnis: ein priorisiertes Portfolio mit klarem „Start here".</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Bewertungsrahmen: 6 Kriterien (Impact, Datenverfügbarkeit, Komplexität, Ressourcen, Risiko, Strategiefit) vorstellen (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Individuelle Bewertung aller Use-Case-Kandidaten auf Scoring-Sheet (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Aggregation und Visualisierung auf der 2×2-Matrix (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Diskussion der Ausreißer und strategischen Sonderfälle (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Entscheidung: 1–2 Piloten, 2–3 Folge-Use-Cases, Rest parken (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Dokumentation der Priorisierungsentscheidung mit Begründung (25 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Scoring-Matrix</span><span class="tl-tag">2×2-Poster</span><span class="tl-tag">Bewertungsvorlage</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">📊 Datenbasiert</span><span class="tl-meta-item">⚖ Entscheidungsorientiert</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-break"><span class="tl-break-time">13:00</span><div class="tl-break-line"></div><span class="tl-break-label">🥗 Mittagspause — 60 min</span></div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">14:00</span><span class="tl-dur">90 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-teal"></div></div>
+        <div class="tl-card" id="c2-3">
+          <div class="tl-card-trigger" onclick="toggle('c2-3')">
+            <span class="tl-card-badge tb-teal">Modul 2.3</span>
+            <span class="tl-card-title">Governance &amp; Ethik — Leitplanken setzen</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Bevor Piloten starten, braucht das Unternehmen klare Spielregeln: Wer entscheidet was? Welche Daten dürfen wie genutzt werden? Was sind rote Linien?</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Impuls: Drei reale AI-Governance-Fehlschläge und was sie kosteten (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Governance-Architektur: Welche Gremien, Rollen und Prozesse brauchen wir? (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Daten-Policy-Workshop: Was darf in welche AI-Tools? Klassifizierung in Gruppen (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Rote-Linien-Diskussion: Welche AI-Anwendungen schließen wir kategorisch aus? (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>EU AI Act: Relevante Anforderungen identifizieren (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Entwurf einer einseitigen AI-Policy für interne Kommunikation (10 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Governance-Canvas</span><span class="tl-tag">Daten-Klassifizierungsmatrix</span><span class="tl-tag">EU AI Act Checkliste</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-break"><span class="tl-break-time">15:30</span><div class="tl-break-line"></div><span class="tl-break-label">☕ Kaffeepause — 15 min</span></div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">15:45</span><span class="tl-dur">60 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-teal"></div></div>
+        <div class="tl-card" id="c2-4">
+          <div class="tl-card-trigger" onclick="toggle('c2-4')">
+            <span class="tl-card-badge tb-teal">Modul 2.4</span>
+            <span class="tl-card-title">Ressourcen &amp; Make-or-Buy — Team, Tools, Budget</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Strategien ohne Ressourcenplanung bleiben Absichtserklärungen. Dieser Block stellt die Frage: Mit wem, womit und wie viel Budget setzen wir die Piloten um?</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Rollenmodell: Welche AI-Rollen braucht ein Unternehmen unserer Größe? (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Make-or-Buy-Entscheidung: Intern aufbauen, Dienstleister oder SaaS? (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Grob-Budgetierung der priorisierten Piloten (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Tool-Landkarte: Welche Tools passen zu Strategie und Policy? (10 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Rollen-Template</span><span class="tl-tag">Make-or-Buy-Matrix</span><span class="tl-tag">Budget-Rahmenplan</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-break"><span class="tl-break-time">16:45</span><div class="tl-break-line"></div><span class="tl-break-label">Tag-1-Abschluss &amp; Ausblick Tag 2 — 15 min</span></div>
+
+      <div class="tl-group-label">Tag 2</div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">09:00</span><span class="tl-dur">150 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-teal"></div></div>
+        <div class="tl-card" id="c2-5">
+          <div class="tl-card-trigger" onclick="toggle('c2-5')">
+            <span class="tl-card-badge tb-teal">Modul 2.4b</span>
+            <span class="tl-card-title">Roadmap-Entwicklung — 18-Monats-Plan</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Alles aus Tag 1 fließt in eine konkrete Roadmap: Wer macht was bis wann — mit Meilensteinen, Abhängigkeiten und realistischen Puffern.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Recap Tag 1 und offene Punkte klären (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Roadmap-Struktur: Drei Horizonte (0–3 / 4–9 / 10–18 Monate) vorstellen (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Gruppenarbeit: Piloten und Folgeprojekte einordnen, Abhängigkeiten markieren (40 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Meilensteine und Erfolgskriterien je Pilot definieren (30 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Konsolidierung zur gemeinsamen Gesamt-Roadmap (30 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Abstimmung und Freigabe durch C-Level (25 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Roadmap-Poster (A0)</span><span class="tl-tag">Meilenstein-Template</span><span class="tl-tag">Abhängigkeits-Check</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-break"><span class="tl-break-time">11:30</span><div class="tl-break-line"></div><span class="tl-break-label">☕ Kaffeepause — 15 min</span></div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">11:45</span><span class="tl-dur">75 min</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-gray"></div></div>
+        <div class="tl-card" id="c2-6">
+          <div class="tl-card-trigger" onclick="toggle('c2-6')">
+            <span class="tl-card-badge tb-gray">Abschluss</span>
+            <span class="tl-card-title">Strategie-Präsentation &amp; Commitment</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Die erarbeitete Strategie wird präsentiert, letzte Anpassungen vorgenommen und mit einem klaren Commitment aller Führungskräfte verabschiedet.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Präsentation der AI-Strategie durch Moderator (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Letzte Anpassungen und offene Punkte (15 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Formelles Commitment der C-Level-Teilnehmenden (10 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Kommunikationsplan: Wie wird die Strategie intern kommuniziert? (20 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Verabschiedung und Ausblick Phase 3 (10 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Strategie-Dokument (10 S.)</span><span class="tl-tag">Kommunikations-Briefing</span><span class="tl-tag">Commitment-Protokoll</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">✓ Verbindlich</span><span class="tl-meta-item">Ende Tag 2: 13:00 Uhr</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="deliverables-bar">
+      <span class="deliverables-label">Deliverables</span>
+      <div class="deliverables-tags">
+        <span class="deliverables-tag">AI-Strategie-Dokument</span>
+        <span class="deliverables-tag">Priorisierungsmatrix</span>
+        <span class="deliverables-tag">Governance-Leitfaden</span>
+        <span class="deliverables-tag">Roadmap 12–18 Monate</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE 3
+  ════════════════════════════════════════════════════ -->
+  <section class="phase-section p3" id="phase3">
+    <div class="phase-header">
+      <div class="phase-num">03</div>
+      <div class="phase-header-text">
+        <div class="phase-badge-row">
+          <span class="phase-badge">Phase 3</span>
+          <span class="phase-meta-pill">4–8 Wochen · Pilotprojekt</span>
+        </div>
+        <h2 class="phase-title">Pilotierung &amp; Kompetenzaufbau</h2>
+        <p class="phase-desc">Die Strategie wird greifbar: Ein bis zwei Use Cases werden pilotiert. Parallel werden Mitarbeitende auf verschiedenen Levels befähigt — von der Grundschulung bis zum Power User.</p>
+      </div>
+    </div>
+
+    <div class="phase-kpis">
+      <div class="phase-kpi"><div class="phase-kpi-num">4–8 Wo.</div><div class="phase-kpi-lbl">Dauer</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">4</div><div class="phase-kpi-lbl">Module</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">3 Tracks</div><div class="phase-kpi-lbl">Schulungspfade</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">Alle Ebenen</div><div class="phase-kpi-lbl">(differenziert)</div></div>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-group-label">Woche 1 — Pilot-Setup &amp; Kick-off</div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">Wo. 1</span><span class="tl-dur">1 Tag</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-amber"></div></div>
+        <div class="tl-card open" id="c3-0">
+          <div class="tl-card-trigger" onclick="toggle('c3-0')">
+            <span class="tl-card-badge tb-amber">Modul 3.1</span>
+            <span class="tl-card-title">Pilot-Design — Scope, KPIs &amp; Testgruppe</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Bevor der Pilot startet, muss er präzise definiert sein: Was genau wird getestet, mit wem, unter welchen Bedingungen — und wann gilt er als Erfolg?</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Pilot-Charter erstellen: Scope, Ziel, Nicht-Ziel, Zeitrahmen, Budget (60 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>KPI-Definitionsworkshop: Welche Metriken beweisen Erfolg? Quantitativ + qualitativ (45 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Testgruppenauswahl: Wer nimmt teil? Kriterien, Freiwilligkeit, Repräsentativität (30 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Baseline-Messung: Aktuellen Ist-Zustand der KPIs dokumentieren (45 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Risiko-Kurz-Assessment: Was kann schiefgehen — und wie reagieren wir? (30 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Pilot-Kick-off-Meeting mit Testgruppe (30 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Pilot-Charter-Template</span><span class="tl-tag">KPI-Worksheet</span><span class="tl-tag">Baseline-Protokoll</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-group-label">Wochen 1–2 — Schulungen (parallel zum Pilot)</div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">Wo. 1–2</span><span class="tl-dur">3 Pfade</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-amber"></div></div>
+        <div class="tl-card" id="c3-1">
+          <div class="tl-card-trigger" onclick="toggle('c3-1')">
+            <span class="tl-card-badge tb-amber">Modul 3.2</span>
+            <span class="tl-card-title">AI-Grundschulung — alle Mitarbeitenden (3 Tracks)</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Differenziertes Schulungsformat: Alle erhalten das gleiche Fundament, aber in auf ihre Rolle zugeschnittenem Tempo und Fokus. Drei parallele Tracks, je 4 Stunden.</p>
+            <div class="track-grid">
+              <div class="track-card">
+                <div class="track-card-title">Track A — Basis</div>
+                <div class="track-card-item">Was ist AI, was nicht</div>
+                <div class="track-card-item">Erste Schritte mit AI-Tools</div>
+                <div class="track-card-item">Datenschutz im Alltag</div>
+                <div class="track-card-target">Zielgruppe: Alle Mitarbeitenden</div>
+              </div>
+              <div class="track-card">
+                <div class="track-card-title">Track B — Power User</div>
+                <div class="track-card-item">Prompt Engineering</div>
+                <div class="track-card-item">Workflow-Integration</div>
+                <div class="track-card-item">Tool-Vertiefung</div>
+                <div class="track-card-target">Zielgruppe: Fachkräfte</div>
+              </div>
+              <div class="track-card">
+                <div class="track-card-title">Track C — Führung</div>
+                <div class="track-card-item">AI-Strategie kommunizieren</div>
+                <div class="track-card-item">Teams durch Wandel führen</div>
+                <div class="track-card-item">KPI-Reporting verstehen</div>
+                <div class="track-card-target">Zielgruppe: Führungskräfte</div>
+              </div>
+            </div>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Je Track: 4 Stunden, max. 15 Personen, interaktiv mit Live-Übungen</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Gemeinsamer Abschluss aller Tracks: 30-min-Plenum zu Fragen &amp; Befürchtungen</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Alle Teilnehmenden erhalten ein persönliches „AI-Starter-Kit" (Links, Tipps, Cheat Sheet)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">3 Foliensätze</span><span class="tl-tag">Übungsaufgaben</span><span class="tl-tag">AI-Starter-Kit PDF</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-group-label">Wochen 2–6 — Pilot-Durchführung &amp; Begleitung</div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">Wo. 2–6</span><span class="tl-dur">Laufend</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-amber"></div></div>
+        <div class="tl-card" id="c3-2">
+          <div class="tl-card-trigger" onclick="toggle('c3-2')">
+            <span class="tl-card-badge tb-amber">Modul 3.3</span>
+            <span class="tl-card-title">Pilot-Begleitung — wöchentliche Check-in-Struktur</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Der Pilot läuft — aber nicht allein. Strukturierte wöchentliche Begleitung sorgt dafür, dass Probleme früh sichtbar werden, Motivation hochbleibt und KPIs auf Kurs sind.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Wöchentliches Check-in (30 min): KPI-Stand, Blocker, offene Fragen mit Testgruppe</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Wöchentliches Steering-Update (15 min): Kurzreport an C-Level per E-Mail</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Bi-weekly Deep Dive (60 min): Qualitative Reflexion mit Testgruppe</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Laufendes KPI-Tracking auf einfachem Dashboard (täglich aktualisiert)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Eskalationspfad: Klare Kriterien, wann der Pilot angepasst oder abgebrochen wird</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Lessons-Learned-Log: Kontinuierlich geführt, nicht erst am Ende</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Check-in-Template</span><span class="tl-tag">KPI-Dashboard</span><span class="tl-tag">Steering-Report</span><span class="tl-tag">LL-Log</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">🔁 Rhythmisiert</span><span class="tl-meta-item">📊 Datenbasiert</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-group-label">Woche 7–8 — Abschluss &amp; Entscheidung</div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">Wo. 7–8</span><span class="tl-dur">1,5 Tage</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-amber"></div></div>
+        <div class="tl-card" id="c3-3">
+          <div class="tl-card-trigger" onclick="toggle('c3-3')">
+            <span class="tl-card-badge tb-amber">Modul 3.4</span>
+            <span class="tl-card-title">Pilotauswertung &amp; Scale-or-Stop-Entscheidung</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Der Pilot endet nicht mit einem Bericht — er endet mit einer klaren Entscheidung: Skalieren, anpassen oder stoppen. Mit konkreter Empfehlung, nicht nur Daten.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Abschluss-Datenerhebung: Letzte KPI-Messung, Abschlussbefragung Testgruppe (Tag 1, 60 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Retrospektive mit Testgruppe: Was würden wir beim nächsten Mal anders machen? (Tag 1, 60 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Ergebnisbericht: KPI-Vergleich Baseline vs. Pilot, qualitative Befunde (Tag 1, nachmittags)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Ergebnis-Präsentation an C-Level mit klarer Handlungsempfehlung (Tag 2, 45 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Scale-or-Stop-Entscheidung: Formeller Beschluss mit dokumentierter Begründung (Tag 2, 30 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Übergabe an Phase 4: Erkenntnisse als Input für Roll-out-Planung (Tag 2, 30 min)</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Ergebnisbericht-Template</span><span class="tl-tag">Retro-Format</span><span class="tl-tag">Entscheidungsprotokoll</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">⚖ Entscheidungsorientiert</span><span class="tl-meta-item">✓ Verbindlich</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="deliverables-bar">
+      <span class="deliverables-label">Deliverables</span>
+      <div class="deliverables-tags">
+        <span class="deliverables-tag">Pilot-Ergebnisbericht</span>
+        <span class="deliverables-tag">Schulungsmaterialien (3 Tracks)</span>
+        <span class="deliverables-tag">KPI-Dashboard</span>
+        <span class="deliverables-tag">Lessons Learned</span>
+        <span class="deliverables-tag">Scale-or-Stop-Protokoll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE 4
+  ════════════════════════════════════════════════════ -->
+  <section class="phase-section p4" id="phase4">
+    <div class="phase-header">
+      <div class="phase-num">04</div>
+      <div class="phase-header-text">
+        <div class="phase-badge-row">
+          <span class="phase-badge">Phase 4</span>
+          <span class="phase-meta-pill">Laufend · Quartalstakt</span>
+        </div>
+        <h2 class="phase-title">Skalierung &amp; Verankerung</h2>
+        <p class="phase-desc">Die AI-Kompetenz wird zur Dauereinrichtung: Erfolgreiche Piloten werden ausgerollt, neue Use Cases erschlossen, und das Unternehmen entwickelt eine eigenständige AI-Kultur.</p>
+      </div>
+    </div>
+
+    <div class="phase-kpis">
+      <div class="phase-kpi"><div class="phase-kpi-num">Laufend</div><div class="phase-kpi-lbl">Dauer</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">3</div><div class="phase-kpi-lbl">Module</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">Quartals-<br>rhythmus</div><div class="phase-kpi-lbl">Grundtakt</div></div>
+      <div class="phase-kpi"><div class="phase-kpi-num">Gesamte Org.</div><div class="phase-kpi-lbl">Zielgruppe</div></div>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-group-label">Monat 1–2 — Roll-out planen &amp; starten</div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">M. 1–2</span><span class="tl-dur">2 Tage</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-purple"></div></div>
+        <div class="tl-card open" id="c4-0">
+          <div class="tl-card-trigger" onclick="toggle('c4-0')">
+            <span class="tl-card-badge tb-purple">Modul 4.1</span>
+            <span class="tl-card-title">Roll-out-Planung — vom Pilot zur Fläche</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Der erfolgreiche Pilot wird systematisch auf die gesamte relevante Organisationseinheit ausgeweitet — mit Wellen-Planung, Change Management und klarer Verantwortung.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>Roll-out-Workshop (Tag 1): Erkenntnisse aus Pilot + Wellen-Planung (Wer kommt wann dran?)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Playbook-Erstellung: Wie wird der Use Case in neuen Teams ausgerollt? Schritt-für-Schritt (Tag 2, Vorm.)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Change-Management-Plan: Kommunikation, Widerstände antizipieren, Champions identifizieren (Tag 2, Nachm.)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Onboarding-Paket für neue Teams: Materialien, Schulungsplan, FAQ</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Erste Roll-out-Welle starten: Begleitung durch geschulte Champions</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Roll-out-Playbook</span><span class="tl-tag">Champions-Programm</span><span class="tl-tag">Onboarding-Paket</span><span class="tl-tag">Wellen-Planung</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">🚀 Skalierend</span><span class="tl-meta-item">👥 Change-fokussiert</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-group-label">Monat 2–4 — Center of Excellence aufbauen</div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">M. 2–4</span><span class="tl-dur">Aufbau</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-purple"></div></div>
+        <div class="tl-card" id="c4-1">
+          <div class="tl-card-trigger" onclick="toggle('c4-1')">
+            <span class="tl-card-badge tb-purple">Modul 4.2</span>
+            <span class="tl-card-title">AI Center of Excellence — internes Kompetenzzentrum</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Das CoE ist die institutionelle Heimat der AI-Kompetenz — es koordiniert neue Use Cases, pflegt Governance, entwickelt Talente weiter und hält das Unternehmen am Puls der AI-Entwicklung.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>CoE-Design-Workshop (1 Tag): Aufgaben, Struktur, Stellenprofil AI Lead, Ressourcenbedarf</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Rollenklärung: AI Lead, AI Champions je Abteilung, externer Berater — wer macht was dauerhaft?</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Wissensmanagementsystem aufsetzen: Wo werden Learnings, Prompts, Best Practices geteilt?</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>AI-Radar einrichten: Monatlicher Review neuer Tools und regulatorischer Entwicklungen</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Internes AI-Community-Format etablieren: Monatliche Show-and-Tell-Sessions (45 min)</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Weiterbildungspfade definieren: Welche Zertifizierungen / Kurse fördert das Unternehmen?</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">CoE-Aufbauplan</span><span class="tl-tag">AI-Lead-Stellenprofil</span><span class="tl-tag">Knowledge-Base-Setup</span><span class="tl-tag">Community-Format</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">🏢 Institutionell</span><span class="tl-meta-item">🔄 Dauerhaft</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-group-label">Ab Monat 3 — Dauerhafter Betriebsrhythmus</div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">Laufend</span><span class="tl-dur">Quartals-<br>takt</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-purple"></div></div>
+        <div class="tl-card" id="c4-2">
+          <div class="tl-card-trigger" onclick="toggle('c4-2')">
+            <span class="tl-card-badge tb-purple">Modul 4.3</span>
+            <span class="tl-card-title">Quarterly Reviews — Fortschritt, Anpassung &amp; neue Use Cases</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">AI-Transformation ist kein Projekt mit Ende. Der Quartalstakt verhindert Stagnation und stellt sicher, dass die Strategie mit der Realität Schritt hält.</p>
+            <div class="rhythm-grid">
+              <div class="rhythm-card">
+                <div class="rhythm-title">Monatlich</div>
+                <div class="rhythm-freq">30–45 min</div>
+                <div class="rhythm-item">KPI-Dashboard-Review</div>
+                <div class="rhythm-item">AI-Radar: neue Tools &amp; Regulierung</div>
+                <div class="rhythm-item">Community Show-and-Tell</div>
+              </div>
+              <div class="rhythm-card">
+                <div class="rhythm-title">Quartalsweise</div>
+                <div class="rhythm-freq">½ Tag</div>
+                <div class="rhythm-item">Strategie-Check: noch aktuell?</div>
+                <div class="rhythm-item">Use-Case-Pipeline befüllen</div>
+                <div class="rhythm-item">Governance &amp; Policy Update</div>
+                <div class="rhythm-item">Maturity-Bewertung</div>
+              </div>
+              <div class="rhythm-card">
+                <div class="rhythm-title">Jährlich</div>
+                <div class="rhythm-freq">1 Tag</div>
+                <div class="rhythm-item">Jahres-Strategie-Review</div>
+                <div class="rhythm-item">Ambitionslevel neu bewerten</div>
+                <div class="rhythm-item">Roadmap für nächstes Jahr</div>
+                <div class="rhythm-item">Teamkompetenz-Assessment</div>
+              </div>
+            </div>
+            <div class="maturity-grid">
+              <div class="maturity-card"><div class="maturity-num">1</div><div class="maturity-name">Explorativ</div><div class="maturity-desc">Erste Experimente, kein System</div></div>
+              <div class="maturity-card"><div class="maturity-num">2</div><div class="maturity-name">Strukturiert</div><div class="maturity-desc">Strategie &amp; Governance vorhanden</div></div>
+              <div class="maturity-card"><div class="maturity-num">3</div><div class="maturity-name">Skaliert</div><div class="maturity-desc">AI in mehreren Bereichen aktiv</div></div>
+              <div class="maturity-card"><div class="maturity-num">4</div><div class="maturity-name">Transformiert</div><div class="maturity-desc">AI im Geschäftsmodell verankert</div></div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Quartalsbericht-Template</span><span class="tl-tag">Maturity-Assessment</span><span class="tl-tag">Use-Case-Pipeline-Board</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">🔁 Rhythmisiert</span><span class="tl-meta-item">📈 Kontinuierlich</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-time-col"><span class="tl-time">Laufend</span><span class="tl-dur">On demand</span></div>
+        <div class="tl-dot-wrap"><div class="tl-dot d-gray"></div></div>
+        <div class="tl-card" id="c4-3">
+          <div class="tl-card-trigger" onclick="toggle('c4-3')">
+            <span class="tl-card-badge tb-gray">Beratung</span>
+            <span class="tl-card-title">Laufende Beratungsleistungen &amp; Exit-Kriterien</span>
+            <span class="tl-card-chev">›</span>
+          </div>
+          <div class="tl-card-body">
+            <p class="tl-card-desc">Das Unternehmen soll am Ende eigenständig AI-fähig sein — nicht dauerhaft abhängig von externen Beratern. Dieser Block definiert, wann die Begleitung erfolgreich endet.</p>
+            <div class="tl-steps">
+              <div class="tl-step"><div class="tl-step-dot"></div>On-demand-Sparring: Externe Perspektive bei neuen Use Cases, Eskalationen oder Marktveränderungen</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Jährliche externe Strategie-Review: Unabhängige Bewertung des AI-Reifegrads</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Neue Use-Case-Design-Sprints: Intensive 2-Tages-Sessions für neue Anwendungsfelder</div>
+              <div class="tl-step"><div class="tl-step-dot"></div>Exit-Kriterien: CoE besetzt, Prozesse etabliert, Maturity-Level 3 erreicht → Eigenständigkeit</div>
+            </div>
+            <div class="tl-tags"><span class="tl-tag">Retainer-Modell</span><span class="tl-tag">Projekt-Einzelmandate</span><span class="tl-tag">Jährlicher Strategie-Check</span></div>
+            <div class="tl-meta"><span class="tl-meta-item">🏁 Ziel: Maturity-Level 3</span><span class="tl-meta-item">🎯 Eigenständigkeit</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="deliverables-bar">
+      <span class="deliverables-label">Deliverables</span>
+      <div class="deliverables-tags">
+        <span class="deliverables-tag">Roll-out-Playbook</span>
+        <span class="deliverables-tag">CoE-Aufbauplan</span>
+        <span class="deliverables-tag">Maturity-Modell</span>
+        <span class="deliverables-tag">Quartalsberichte</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="curriculum-footer">
+    <p class="footer-text">AI-Beratungskonzept · 4-Phasen-Curriculum · KMU &amp; Großunternehmen</p>
+    <p class="footer-text">Erstellt mit AI Business Advisor</p>
+  </footer>
+
+</div>
+
+<script>
+  function toggle(id) {
+    var card = document.getElementById(id);
+    var isOpen = card.classList.contains('open');
+    var allCards = document.querySelectorAll('.tl-card');
+    allCards.forEach(function(c) { c.classList.remove('open'); });
+    if (!isOpen) card.classList.add('open');
+  }
+
+  document.querySelectorAll('.phase-nav-pill').forEach(function(pill) {
+    pill.addEventListener('click', function(e) {
+      e.preventDefault();
+      var target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        var offset = 80;
+        var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
